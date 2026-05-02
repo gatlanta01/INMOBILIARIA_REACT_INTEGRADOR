@@ -1,0 +1,29 @@
+# Archivos a ignorar en Git
+
+# Node modules del frontend
+frontend/node_modules/
+
+# Build del frontend
+frontend/dist/
+frontend/.vite/
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor configs
+.DS_Store
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Caché
+frontend/.eslintcache
