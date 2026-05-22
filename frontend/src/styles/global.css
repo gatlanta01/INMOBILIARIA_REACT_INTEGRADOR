@@ -438,6 +438,163 @@ ul { list-style: none; }
 .propiedades-page .page-container { padding-bottom: 60px; }
 
 /* ============================================================
+   FORMULARIO DE SOLICITUD DE INTERÉS (DetallePropiedad)
+   ============================================================ */
+.solicitud-form {
+  margin-top: 1.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: fadeInDown .25s ease;
+}
+.solicitud-form h3 { font-size: 1.1rem; color: var(--text-primary); }
+.solicitud-info { font-size: .9rem; color: var(--text-secondary); }
+.solicitud-actions { display: flex; gap: .75rem; flex-wrap: wrap; }
+.form-group { display: flex; flex-direction: column; gap: .35rem; }
+.form-group label { font-size: .85rem; font-weight: 600; color: var(--text-secondary); }
+.form-control {
+  padding: .6rem .9rem;
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-sm);
+  font-size: .95rem;
+  font-family: var(--font);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: var(--transition);
+  resize: vertical;
+}
+.form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,86,219,.12); }
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   BANDEJA DE SOLICITUDES (BandejaSolicitudes)
+   ============================================================ */
+.bandeja-page { padding: 2rem 0; min-height: 80vh; }
+.bandeja-container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+.bandeja-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;
+}
+.bandeja-title { font-size: 1.75rem; font-weight: 700; color: var(--text-primary); }
+.bandeja-subtitle { color: var(--text-secondary); font-size: .95rem; }
+
+/* Stats */
+.bandeja-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 1.5rem; }
+.bstat {
+  background: var(--bg-primary); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1rem; text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.bstat-num { display: block; font-size: 2rem; font-weight: 700; }
+.bstat-sinleer  .bstat-num { color: #3b82f6; }
+.bstat-pendiente .bstat-num { color: var(--accent); }
+.bstat-ejecutada .bstat-num { color: var(--success); }
+.bstat-total    .bstat-num { color: var(--text-primary); }
+.bstat span:last-child { font-size: .8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .05em; }
+
+/* Layout 2 columnas */
+.bandeja-layout {
+  display: grid; grid-template-columns: 340px 1fr; gap: 1.5rem;
+  align-items: start;
+}
+
+/* Sidebar */
+.bandeja-sidebar {
+  background: var(--bg-primary); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm);
+  min-height: 500px;
+}
+.bandeja-filtros {
+  display: flex; flex-wrap: wrap; gap: .35rem; padding: 1rem;
+  border-bottom: 1px solid var(--border); background: var(--bg-secondary);
+}
+.filtro-btn {
+  padding: .35rem .75rem; border-radius: 20px; border: 1px solid var(--border-dark);
+  background: var(--bg-primary); cursor: pointer; font-size: .82rem; color: var(--text-secondary);
+  transition: var(--transition);
+}
+.filtro-btn:hover { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+.filtro-btn--activo { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+.solicitud-lista { list-style: none; }
+.solicitud-item {
+  padding: 1rem 1.2rem; border-bottom: 1px solid var(--border);
+  cursor: pointer; transition: var(--transition);
+}
+.solicitud-item:hover { background: var(--primary-light); }
+.solicitud-item--activa { background: var(--primary-light); border-left: 3px solid var(--primary); }
+.solicitud-item--nueva { background: #eff6ff; }
+
+.sol-item-top { display: flex; justify-content: space-between; align-items: center; gap: .5rem; margin-bottom: .25rem; }
+.sol-nombre { font-weight: 600; font-size: .95rem; display: flex; align-items: center; gap: .4rem; }
+.punto-nuevo { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; flex-shrink: 0; }
+.sol-propiedad { font-size: .82rem; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sol-asesor    { font-size: .78rem; color: var(--primary); margin-top: .1rem; }
+.sol-fecha { font-size: .75rem; color: var(--text-muted); margin-top: .2rem; }
+
+.bandeja-vacia { padding: 2rem; text-align: center; color: var(--text-muted); }
+
+/* Detalle */
+.bandeja-detalle {
+  background: var(--bg-primary); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-sm);
+  min-height: 500px;
+}
+.bandeja-empty-detail { display: flex; align-items: center; justify-content: center; height: 100%; min-height: 400px; color: var(--text-muted); font-size: 1.1rem; }
+
+.sol-det-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.sol-det-nombre { font-size: 1.4rem; font-weight: 700; margin-bottom: .25rem; }
+.sol-det-meta { font-size: .9rem; color: var(--text-secondary); margin-bottom: .2rem; }
+.sol-det-meta a { color: var(--primary); }
+.sol-det-propiedad { font-size: .9rem; color: var(--text-secondary); margin-bottom: .2rem; }
+.sol-det-asesor    { font-size: .88rem; color: var(--primary); margin-top: .2rem; }
+.sol-det-fecha { font-size: .82rem; color: var(--text-muted); }
+
+.sol-det-mensaje { margin-bottom: 1.5rem; }
+.sol-det-mensaje h3 { font-size: 1rem; margin-bottom: .5rem; }
+.sol-det-mensaje p { background: var(--bg-secondary); border-radius: var(--radius-sm); padding: .75rem 1rem; font-size: .95rem; line-height: 1.7; }
+
+.sol-det-acciones { margin-bottom: 1.5rem; }
+.sol-det-acciones h3 { font-size: 1rem; margin-bottom: .75rem; }
+.estado-botones { display: flex; gap: .5rem; flex-wrap: wrap; }
+.estado-btn {
+  padding: .45rem 1rem; border-radius: 20px; border: 1px solid var(--border-dark);
+  background: var(--bg-secondary); cursor: pointer; font-size: .85rem;
+  transition: var(--transition);
+}
+.estado-btn:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+.estado-btn--activo { background: var(--primary); color: #fff; border-color: var(--primary); }
+.estado-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.sol-det-imagen { margin-bottom: 1.5rem; border-radius: var(--radius); overflow: hidden; max-height: 200px; }
+.sol-det-imagen img { width: 100%; object-fit: cover; }
+.sol-det-eliminar { margin-top: .5rem; }
+
+/* Badges de estado solicitudes */
+.badge-sinleer  { background: #dbeafe; color: #1d4ed8; }
+.badge-pendiente { background: #fef9c3; color: #92400e; }
+.badge-ejecutada { background: #d1fae5; color: #065f46; }
+.badge-lg { font-size: .9rem; padding: .4rem .9rem; }
+
+/* Responsive bandeja */
+@media (max-width: 900px) {
+  .bandeja-layout { grid-template-columns: 1fr; }
+  .bandeja-stats { grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 480px) {
+  .bandeja-stats { grid-template-columns: 1fr 1fr; }
+}
+
+/* ============================================================
    RESPONSIVE
    ============================================================ */
 @media (max-width: 1024px) {

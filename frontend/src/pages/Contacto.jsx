@@ -1,27 +1,77 @@
 // ============================================================
 // PÁGINA: Contacto
-// Formulario visual de contacto e información
+// Formulario de contacto — dirige al asesor seleccionado
 // ============================================================
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import { crearSolicitud, listarAsesores } from '../services/solicitudService';
+import { useAuth } from '../hooks/useAuth';
 
 const Contacto = () => {
-  const [form, setForm] = useState({ nombre: '', correo: '', telefono: '', mensaje: '' });
-  const [enviado, setEnviado] = useState(false);
+  const { usuario } = useAuth();
+  const [form, setForm] = useState({
+    nombre: '',
+    correo: '',
+    telefono: '',
+    mensaje: '',
+    asesor_id: '',
+  });
+  const [asesores, setAsesores]   = useState([]);
+  const [enviado,  setEnviado]    = useState(false);
+  const [error,    setError]      = useState(null);
+  const [enviando, setEnviando]   = useState(false);
+
+  // Pre-rellenar datos del usuario autenticado
+  useEffect(() => {
+    if (usuario) {
+      setForm((prev) => ({
+        ...prev,
+        nombre: usuario.nombre || '',
+        correo: usuario.correo || '',
+      }));
+    }
+  }, [usuario]);
+
+  // Cargar lista de asesores disponibles
+  useEffect(() => {
+    listarAsesores().then((res) => {
+      if (res.success) setAsesores(res.asesores);
+    });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulación de envío (en producción conectar con backend de emails)
-    setEnviado(true);
-    setTimeout(() => setEnviado(false), 4000);
-    setForm({ nombre: '', correo: '', telefono: '', mensaje: '' });
+    setEnviando(true);
+    setError(null);
+
+    const datos = {
+      nombre_cliente: form.nombre,
+      correo_cliente: form.correo,
+      telefono:       form.telefono,
+      mensaje:        form.mensaje,
+      asesor_id:      form.asesor_id ? Number(form.asesor_id) : null,
+      cliente_id:     usuario ? usuario.id : null,
+      propiedad_id:   null,
+      titulo_propiedad: 'Consulta general',
+    };
+
+    const res = await crearSolicitud(datos);
+    setEnviando(false);
+
+    if (res.success) {
+      setEnviado(true);
+      setTimeout(() => setEnviado(false), 5000);
+      setForm({ nombre: '', correo: '', telefono: '', mensaje: '', asesor_id: '' });
+    } else {
+      setError(res.message || 'Error al enviar el mensaje.');
+    }
   };
 
   return (
@@ -86,7 +136,12 @@ const Contacto = () => {
 
             {enviado && (
               <div className="alert alert-success">
-                ✅ ¡Mensaje enviado! Te contactaremos pronto.
+                ✅ ¡Mensaje enviado! Tu solicitud llegará a la bandeja del asesor pronto.
+              </div>
+            )}
+            {error && (
+              <div className="alert alert-error">
+                ❌ {error}
               </div>
             )}
 
@@ -119,6 +174,24 @@ const Contacto = () => {
                 placeholder="+57 300 000 0000"
               />
 
+              {/* Selector de asesor */}
+              <div className="form-group">
+                <label className="form-label">Asesor preferido <span style={{ color: '#888', fontWeight: 400 }}>(opcional)</span></label>
+                <select
+                  name="asesor_id"
+                  value={form.asesor_id}
+                  onChange={handleChange}
+                  className="form-input"
+                >
+                  <option value="">— Sin preferencia / Cualquier asesor —</option>
+                  {asesores.map((a) => (
+                    <option key={a.id} value={a.id}>
+                      {a.nombre}{a.rol === 'admin' ? ' (Admin)' : ''}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               <div className="form-group">
                 <label className="form-label">Mensaje</label>
                 <textarea
@@ -132,8 +205,8 @@ const Contacto = () => {
                 />
               </div>
 
-              <Button type="submit" variant="primary" fullWidth>
-                📨 Enviar mensaje
+              <Button type="submit" variant="primary" fullWidth disabled={enviando}>
+                {enviando ? '⏳ Enviando...' : '📨 Enviar mensaje'}
               </Button>
             </form>
           </div>
@@ -144,3 +217,4 @@ const Contacto = () => {
 };
 
 export default Contacto;
+

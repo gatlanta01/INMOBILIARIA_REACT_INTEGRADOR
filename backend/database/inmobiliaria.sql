@@ -41,6 +41,27 @@ CREATE TABLE IF NOT EXISTS propiedades (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ============================================================
+-- TABLA: solicitudes
+-- Bandeja de solicitudes de interés enviadas por clientes
+-- ============================================================
+CREATE TABLE IF NOT EXISTS solicitudes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    propiedad_id INT NULL,
+    cliente_id INT NULL,
+    nombre_cliente VARCHAR(100) NOT NULL,
+    correo_cliente VARCHAR(100) NOT NULL,
+    telefono VARCHAR(30),
+    mensaje TEXT,
+    asesor_id INT NULL,
+    estado ENUM('sin_leer','pendiente','ejecutada') DEFAULT 'sin_leer',
+    fecha_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (propiedad_id) REFERENCES propiedades(id) ON DELETE CASCADE,
+    FOREIGN KEY (cliente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (asesor_id) REFERENCES usuarios(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ============================================================
 -- TABLA: favoritos
 -- ============================================================
 CREATE TABLE IF NOT EXISTS favoritos (
@@ -59,7 +80,9 @@ CREATE TABLE IF NOT EXISTS favoritos (
 -- ============================================================
 INSERT INTO usuarios (nombre, correo, password, rol) VALUES
 ('Administrador', 'admin@inmobiliaria.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin'),
-('Carlos López', 'cliente@inmobiliaria.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'cliente');
+('Carlos López', 'cliente@inmobiliaria.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'cliente'),
+('Ana Martínez', 'asesor1@inmobiliaria.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'asesor'),
+('Luis Herrera', 'asesor2@inmobiliaria.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'asesor');
 
 -- ============================================================
 -- DATOS INICIALES: propiedades

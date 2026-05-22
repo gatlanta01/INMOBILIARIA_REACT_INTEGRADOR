@@ -22,6 +22,7 @@ import Dashboard from '../pages/Dashboard';
 import CrearPropiedad from '../pages/CrearPropiedad';
 import EditarPropiedad from '../pages/EditarPropiedad';
 import Favoritos from '../pages/Favoritos';
+import BandejaSolicitudes from '../pages/BandejaSolicitudes';
 
 const AppRoutes = () => {
   return (
@@ -43,6 +44,7 @@ const AppRoutes = () => {
           <Route path="crear-propiedad" element={<CrearPropiedad />} />
           <Route path="editar-propiedad/:id" element={<EditarPropiedad />} />
           <Route path="favoritos" element={<Favoritos />} />
+          <Route path="bandeja-solicitudes" element={<BandejaSolicitudes />} />
         </Route>
 
         {/* Ruta 404 */}

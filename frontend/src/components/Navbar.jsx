@@ -51,6 +51,11 @@ const Navbar = () => {
             <>
               <Link to="/dashboard" className={isActive('/dashboard')} onClick={() => setMenuOpen(false)}>Dashboard</Link>
               <Link to="/favoritos" className={isActive('/favoritos')} onClick={() => setMenuOpen(false)}>Favoritos</Link>
+              {(usuario.rol === 'admin' || usuario.rol === 'asesor') && (
+                <Link to="/bandeja-solicitudes" className={isActive('/bandeja-solicitudes')} onClick={() => setMenuOpen(false)}>
+                  📬 Solicitudes
+                </Link>
+              )}
               <div className="navbar-user">
                 <span className="user-greeting">Hola, {usuario.nombre}</span>
                 <button className="btn btn-outline btn-sm" onClick={handleLogout}>Cerrar sesión</button>

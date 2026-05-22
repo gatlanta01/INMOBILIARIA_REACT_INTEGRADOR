@@ -67,4 +67,18 @@ export const demoUsers = [
     password: 'password',
     rol: 'cliente',
   },
+  {
+    id: 3,
+    nombre: 'Ana Martínez',
+    correo: 'asesor1@inmobiliaria.com',
+    password: 'password',
+    rol: 'asesor',
+  },
+  {
+    id: 4,
+    nombre: 'Luis Herrera',
+    correo: 'asesor2@inmobiliaria.com',
+    password: 'password',
+    rol: 'asesor',
+  },
 ];

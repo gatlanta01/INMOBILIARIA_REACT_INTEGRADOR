@@ -42,9 +42,16 @@ const Dashboard = () => {
               Bienvenido, <strong>{usuario?.nombre}</strong> ({usuario?.rol})
             </p>
           </div>
-          <Link to="/crear-propiedad" className="btn btn-primary">
-            ➕ Nueva propiedad
-          </Link>
+          <div>
+            <Link to="/crear-propiedad" className="btn btn-primary">
+              ➕ Nueva propiedad
+            </Link>
+            {usuario?.rol === 'admin' && (
+              <Link to="/bandeja-solicitudes" className="btn btn-secondary" style={{ marginLeft: '0.75rem' }}>
+                📬 Ver solicitudes
+              </Link>
+            )}
+          </div>
         </div>
 
         {/* Tarjetas de resumen */}
